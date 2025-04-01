@@ -1,0 +1,55 @@
+.DS_Store
+*~
+
+# Python bytecode
+*.pyc
+*.pyo
+__pycache__
+.pytest_cache
+
+# distutils / setuptools
+*.egg-info/
+.eggs/
+
+# NPM/Yarn packages
+node_modules
+
+# Vagrant
+.vagrant/
+
+# DotEnv
+.env
+.env.*
+*.env
+
+# instance media
+**/static_root
+**/media_root
+
+# tests, coverage
+.tox/
+.coverage
+
+# deploy temp output
+deploy/requirements.txt
+deploy/initial-data
+deploy/package.json
+deploy/wheel
+
+# Dont commit databases, dumps
+*.db
+*.pgdump
+*.sqlite3
+
+# other
+dev/
+build/
+dist/
+venv/
+.idea/
+.cache/
+.project
+
+# data export output
+data-export/*.csv
+data-export/*.zip
