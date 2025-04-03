@@ -23,6 +23,10 @@ PROJ_DIR = os.path.dirname(__file__)
 SRC_DIR = os.path.dirname(PROJ_DIR)
 
 
+# for custom user model
+AUTH_USER_MODEL = "users.User"
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
