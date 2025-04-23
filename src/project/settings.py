@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # project apps
     'apps.users',
+    'apps.policy',
+    'apps.claims',
 ]
 
 MIDDLEWARE = [
