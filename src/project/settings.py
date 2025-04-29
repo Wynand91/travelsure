@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'drf_yasg',
     # project apps
     'apps.users',
     'apps.policy',
@@ -117,12 +118,25 @@ REST_FRAMEWORK = {
 }
 
 
-# TODO: create env vars for these values
+ACCESS_TOKEN_LIFETIME = os.getenv('ACCESS_TOKEN_LIFETIME', default=30)
+REFRESH_TOKEN_LIFETIME = os.getenv('REFRESH_TOKEN_LIFETIME', default=1)
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=ACCESS_TOKEN_LIFETIME),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=REFRESH_TOKEN_LIFETIME),
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
+
+
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': False,  # Disable session auth (can be enabled for specific use cases)
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic',
+            'description': 'Basic Authentication'
+        }
+    },
+}
+
 
 
 # Password validation
