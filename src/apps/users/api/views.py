@@ -1,4 +1,4 @@
-from rest_framework import status, permissions
+from rest_framework import status, permissions, mixins
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
@@ -8,7 +8,7 @@ from apps.users.models import User
 from apps.views import CreateMixin, SerializerForAction
 
 
-class UsersViewSet(SerializerForAction ,CreateMixin, GenericViewSet):
+class UsersViewSet(SerializerForAction, mixins.CreateModelMixin , GenericViewSet):
     serializer_default = UserCreateSerializer
     serializer_for_action = {
         'update_user': UserUpdateSerializer,
@@ -21,6 +21,13 @@ class UsersViewSet(SerializerForAction ,CreateMixin, GenericViewSet):
             return [permissions.AllowAny()]
         else:
             return super().get_permissions()
+
+    # def create(self, request, *_, **__):
+    #     # noinspection PyUnresolvedReferences
+    #     serializer = self.get_serializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     return Response(serializer.data, status=HTTP_201_CREATED)
 
     @action(detail=False, methods=['get'])
     def profile(self, request):
