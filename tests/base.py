@@ -1,6 +1,8 @@
 from rest_framework.test import APIClient, APITestCase
 from rest_framework.response import Response
 
+from tests.utils import get_jwt_token
+
 
 class BaseApiTestCase(APITestCase):
     """
@@ -16,8 +18,13 @@ class BaseApiTestCase(APITestCase):
         self,
         method='post',
         data=None, url=None,
+        user=None, jwt=None,
         **kwargs
     ) -> Response:
+        if user:
+            kwargs['HTTP_AUTHORIZATION'] = f'bearer {get_jwt_token(user)}'
+        elif jwt:
+            kwargs['HTTP_AUTHORIZATION'] = f'bearer {jwt}'
         return getattr(self.client, method)(url or self.url, data=data, **kwargs)
 
     def post(self, **kwargs):

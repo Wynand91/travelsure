@@ -22,13 +22,6 @@ class UsersViewSet(SerializerForAction, mixins.CreateModelMixin , GenericViewSet
         else:
             return super().get_permissions()
 
-    # def create(self, request, *_, **__):
-    #     # noinspection PyUnresolvedReferences
-    #     serializer = self.get_serializer(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #     return Response(serializer.data, status=HTTP_201_CREATED)
-
     @action(detail=False, methods=['get'])
     def profile(self, request):
         serializer = self.get_serializer(request.user)
