@@ -22,9 +22,9 @@ class BaseApiTestCase(APITestCase):
         **kwargs
     ) -> Response:
         if user:
-            kwargs['HTTP_AUTHORIZATION'] = f'bearer {get_jwt_token(user)}'
+            kwargs['HTTP_AUTHORIZATION'] = f'Bearer {get_jwt_token(user)}'
         elif jwt:
-            kwargs['HTTP_AUTHORIZATION'] = f'bearer {jwt}'
+            kwargs['HTTP_AUTHORIZATION'] = f'Bearer {jwt}'
         return getattr(self.client, method)(url or self.url, data=data, **kwargs)
 
     def post(self, **kwargs):
@@ -32,6 +32,9 @@ class BaseApiTestCase(APITestCase):
 
     def put(self, **kwargs):
         return self.request(method='put', **kwargs)
+
+    def patch(self, **kwargs):
+        return self.request(method='patch', **kwargs)
 
     def get(self, **kwargs):
         return self.request(method='get', **kwargs)

@@ -1,5 +1,7 @@
+from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED
+from rest_framework.viewsets import GenericViewSet
 
 
 class CreateMixin:
@@ -27,3 +29,14 @@ class SerializerForAction:
             f"action: {action} on: {self.__class__.__name__}"
         )
         return cls
+
+
+
+# Custom DRf View sets:
+class SafeModelViewSet(mixins.CreateModelMixin,
+                       mixins.RetrieveModelMixin,
+                       mixins.UpdateModelMixin,
+                       mixins.ListModelMixin,
+                       GenericViewSet
+                       ):
+    """DRF ModelViewSet, but without destroy (delete) functionality"""

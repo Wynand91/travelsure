@@ -15,8 +15,10 @@ class Policy(BaseModel):
     start_date = models.DateTimeField(null=True, blank=True)
     end_date = models.DateTimeField(null=True, blank=True)
     policy_type = EnumSmallIntegerField(PolicyType)
-    price = models.DecimalField(decimal_places=2, max_digits=16)
+    paid = models.BooleanField(default=False)
     status = EnumSmallIntegerField(PolicyStatus)
+
+    objects = models.Manager()
 
     class Meta:
         verbose_name_plural = 'Policies'

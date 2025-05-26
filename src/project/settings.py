@@ -116,6 +116,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
 
 
@@ -130,6 +131,7 @@ SIMPLE_JWT = {
 
 SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': False,  # Disable session auth (can be enabled for specific use cases)
+    'DEFAULT_AUTO_SCHEMA_CLASS': 'apps.autoschema.AutoSchema',
     'SECURITY_DEFINITIONS': {
         'basic': {
             'type': 'basic',
