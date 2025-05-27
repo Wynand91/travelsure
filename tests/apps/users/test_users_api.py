@@ -67,7 +67,7 @@ class TestUserProfileApi(BaseApiTestCase):
         resp = self.get(user=self.user)
         assert resp.status_code == 200
         assert resp.json() == {
-            'id': self.user.id,
+            'id': str(self.user.id),
             'username': self.user.username,
             'first_name': self.user.first_name,
             'last_name': self.user.last_name

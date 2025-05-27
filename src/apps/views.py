@@ -35,7 +35,6 @@ class SerializerForAction:
 # Custom DRf View sets:
 class SafeModelViewSet(mixins.CreateModelMixin,
                        mixins.RetrieveModelMixin,
-                       mixins.UpdateModelMixin,
                        mixins.ListModelMixin,
                        GenericViewSet
                        ):

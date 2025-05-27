@@ -1,6 +1,6 @@
-from apps.policy.api.serializers import PolicySerializer, CreatePolicySerializer, UpdatePolicySerializer
+from apps.policy.api.serializers import PolicySerializer
 from apps.policy.models import Policy
-from apps.views import SafeModelViewSet, SerializerForAction
+from apps.views import SafeModelViewSet
 
 
 class PolicyViewSet(SafeModelViewSet):

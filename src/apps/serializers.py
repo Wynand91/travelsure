@@ -8,7 +8,7 @@ class EnumSerializer(Field):
     """
     default_error_messages = {
         'invalid': _('Not a valid enum.'),
-        'blank': _('This field may not be blank.'),
+        'blank': _('This field is required.'),
     }
     initial = ''
 
@@ -22,14 +22,14 @@ class EnumSerializer(Field):
         # Test for the empty string here so that it does not get validated,
         # and so that subclasses do not need to handle it explicitly
         # inside the `to_internal_value()` method.
-        if data == '':
+        if data == '' or data == empty:
             if not self.allow_blank:
                 self.fail('blank')
             return ''
 
         try:
-            self.enum.data
-        except AttributeError:
+            self.enum[data]
+        except KeyError:
             self.fail('invalid')
         return super().run_validation(data)
 
@@ -41,7 +41,7 @@ class EnumSerializer(Field):
         }
 
     def to_internal_value(self, data):
-        value = self.enum.data
+        value = self.enum[data]
         return value
 
     def to_representation(self, value):

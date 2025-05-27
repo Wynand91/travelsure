@@ -3,3 +3,4 @@ pytest-django ~=4.11
 flake8 ~=7.2
 pytest-env
 factory-boy ~=3.3
+pytest-voluptuous

@@ -8,9 +8,10 @@ class PolicyType(IntEnum):
 
 
 class PolicyStatus(IntEnum):
-    ACTIVE = 1
-    EXPIRED = 2
-    CANCELLED = 3
+    PENDING = 1
+    ACTIVE = 2
+    EXPIRED = 3
+    CANCELLED = 4
 
 
 class Destination(IntEnum):
