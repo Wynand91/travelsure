@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from rest_framework.templatetags.rest_framework import as_string
 
 from apps.policy.enums import Destination, PolicyType, PolicyStatus
 from apps.policy.models import Policy

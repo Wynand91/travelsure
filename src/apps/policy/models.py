@@ -22,7 +22,3 @@ class Policy(BaseModel):
 
     class Meta:
         verbose_name_plural = 'Policies'
-
-
-# TODO: notify users that they have to pay
-# TODO: add task for activating and deactiviating policies (check payment status)

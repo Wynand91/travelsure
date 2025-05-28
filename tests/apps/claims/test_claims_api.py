@@ -12,28 +12,25 @@ from tests.factories import UserFactory, PolicyFactory
 from pytest_voluptuous import S
 
 
-class TestPolicyApi(BaseApiTestCase):
-    url = reverse_lazy('api:policy-list')
+class TestClaimsApi(BaseApiTestCase):
+    url = reverse_lazy('api:claims-list')
 
     def setUp(self):
         self.user = UserFactory()
-        self.policy_inactive = PolicyFactory(user=self.user, status=PolicyStatus.EXPIRED)
-        self.policy_active = PolicyFactory(
-            user=self.user,
-            start_date=datetime(2025, 10, 30),
-            end_date=datetime(2025, 12, 30),
-        )
+        self.policy_expired_old = PolicyFactory(user=self.user, status=PolicyStatus.EXPIRED)
+        self.policy_expired_recent = PolicyFactory(user=self.user, status=PolicyStatus.EXPIRED)
+        self.policy_pending = PolicyFactory(status=PolicyStatus.PENDING)
+        self.policy_cancelled = PolicyFactory(status=PolicyStatus.CANCELLED)
+        self.policy_active = PolicyFactory(user=self.user)
 
-        # create policy for another user
-        self.other_user = UserFactory(username='random@user.com')
-        self.other_user_policy = PolicyFactory(user=self.other_user)
         # clear any mails created by factories
         mail.outbox.clear()
 
-    def test_policy_list(self):
+    def test_claim_list(self):
         resp = self.get(user=self.user)
         assert resp.status_code == 200
         json = resp.json()
+        breakpoint()
         # check that both policies belong to request user
         assert len(json) == 2
         for policy in json:
@@ -54,10 +51,11 @@ class TestPolicyApi(BaseApiTestCase):
         ])
 
 
-    def test_policy_detail(self):
+    def test_claim_detail(self):
         url = reverse_lazy('api:policy-detail', kwargs={'pk': self.policy_active.id})
         resp = self.get(user=self.user, url=url)
         assert resp.status_code == 200
+        breakpoint()
         assert resp.json() == {
             'id': str(self.policy_active.id),
             'destination': 'EUROPE',
@@ -70,28 +68,27 @@ class TestPolicyApi(BaseApiTestCase):
             'user': str(self.user.id)
         }
 
-
-    def test_policy_create_validation(self):
+    def test_claim_create_validation(self):
         resp = self.post(user=self.user, data={})
         assert resp.status_code == 400
+        breakpoint()
         assert resp.json() == {
-            'destination': ['This field is required.'],
-            'start_date': ['This field is required.'],
-            'end_date': ['This field is required.'],
-            'policy_type': ['This field is required.'],
+            'policy': str(self.policy_active.id),
+            'description': 'Broke my toe. Ouchie.',
+            'amount_claimed': 200,
         }
         # assert no email sent
         assert len(mail.outbox) == 0
 
-    def test_policy_create_invalid_enum(self):
+    def test_claim_create_for_pending_policy(self):
         data = {
-            'destination': 'INVALID',
-            'start_date': '2025-06-30',
-            'end_date': '2025-07-30',
-            'policy_type': 'INVALID',
+            'policy': str(self.policy_pending.id),
+            'description': 'Broke my toe. Ouchie.',
+            'amount_claimed': 200,
         }
         resp = self.post(user=self.user, data=data)
         assert resp.status_code == 400
+        breakpoint()
         assert resp.json() == {
             'destination': ['Not a valid enum.'],
             'policy_type': ['Not a valid enum.']
@@ -99,7 +96,39 @@ class TestPolicyApi(BaseApiTestCase):
         # assert no email sent
         assert len(mail.outbox) == 0
 
-    def test_policy_create_invalid_date(self):
+    def test_claim_create_for_cancelled_policy(self):
+        data = {
+            'policy': str(self.policy_pending.id),
+            'description': 'Broke my toe. Ouchie.',
+            'amount_claimed': 200,
+        }
+        resp = self.post(user=self.user, data=data)
+        assert resp.status_code == 400
+        breakpoint()
+        assert resp.json() == {
+            'destination': ['Not a valid enum.'],
+            'policy_type': ['Not a valid enum.']
+        }
+        # assert no email sent
+        assert len(mail.outbox) == 0
+
+    def test_claim_create_for_long_expired_policy(self):
+        data = {
+            'policy': str(self.policy_expired_old.id),
+            'description': 'Broke my toe. Ouchie.',
+            'amount_claimed': 200,
+        }
+        resp = self.post(user=self.user, data=data)
+        assert resp.status_code == 400
+        breakpoint()
+        assert resp.json() == {
+            'destination': ['Not a valid enum.'],
+            'policy_type': ['Not a valid enum.']
+        }
+        # assert no email sent
+        assert len(mail.outbox) == 0
+
+    def test_claim_create_invalid_date(self):
         data = {
             'destination': 'EUROPE',
             'start_date': '2026-06-30',
@@ -112,7 +141,39 @@ class TestPolicyApi(BaseApiTestCase):
         # assert no email sent
         assert len(mail.outbox) == 0
 
-    def test_policy_create_success(self):
+    def test_claim_create_success_expired_policy(self):
+        data = {
+            'destination': 'EUROPE',
+            'start_date': '2025-06-30',
+            'end_date': '2025-07-30',
+            'policy_type': 'BASIC',
+        }
+        resp = self.post(user=self.user, data=data)
+        assert resp.status_code == 201
+        obj = Policy.objects.get(id=resp.json()['id'])
+        assert resp.json() == {
+            'id': str(obj.id),
+            'destination': 'EUROPE',
+            'start_date': '2025-06-30',
+            'end_date': '2025-07-30',
+            'policy_type': 'BASIC',
+            'status': 'PENDING',
+            'is_active': False,
+            'paid': False,
+            'user': str(self.user.id)
+        }
+        # check email was sent
+        # Check how many emails were sent
+        assert len(mail.outbox) == 1
+
+        # Inspect the email content
+        email = mail.outbox[0]
+        assert email.subject == "Your Policy Confirmation"
+        assert "Thank you" in email.body
+        assert email.to == [self.user.username]
+
+
+    def test_claim_create_success_active_policy(self):
         data = {
             'destination': 'EUROPE',
             'start_date': '2025-06-30',

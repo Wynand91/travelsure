@@ -13,6 +13,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
+from corsheaders.defaults import default_headers
 
 # Load environment variables from .env file
 load_dotenv()
@@ -50,9 +51,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'django_extensions',
     'rest_framework',
     'drf_yasg',
+    'huey.contrib.djhuey',
     # project apps
     'apps.users',
     'apps.policy',
@@ -62,6 +65,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -88,6 +92,14 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'project.wsgi.application'
+
+
+# CORS config
+ORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS', False)
+CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', [])
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'authorization',
+]
 
 
 # Database
@@ -183,3 +195,20 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# email backend settings
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Huey
+HUEY_IMMEDIATE = os.getenv('HUEY_IMMEDIATE', default=False)  # Set to True for testing without running worker
+HUEY = {
+    'name': 'travelsure',
+    'immediate': HUEY_IMMEDIATE,
+    'connection': {'host': 'localhost', 'port': 6379},
+    'consumer': {
+        'workers': 1,
+        'periodic': True,
+        'scheduler_interval': 1,
+        'loglevel': 'INFO',
+    },
+}

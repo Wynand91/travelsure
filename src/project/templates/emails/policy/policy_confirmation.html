@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head><title>Travelsure Policy Confirmation</title></head>
+<body>
+    <h2>Thank you for trusting Travelsure!</h2>
+    <h2>Policy plan summary:</h2>
+    <p><strong>Destination:</strong> {{ policy.destination.name }}</p>
+    <p><strong>Start:</strong> {{ policy.start_date }}</p>
+    <p><strong>End:</strong> {{ policy.end_date }}</p>
+    <p><strong>Type:</strong> {{ policy.policy_type.name }}</p>
+    <p><strong>Status:</strong> {{ policy.status.name }}</p>
+
+    <h2><strong>Total amount due:</strong> {{ price }}</h2>
+
+    <h2>Payment details</h2>
+    <p>Bank name: FakeBank</p>
+    <p>Acc number: 12345678</p>
+    <p>Branch code: 0000</p>
+
+    <p>Send <strong>proof of payment</strong> to: <strong>info@travelsure.com</strong></p>
+
+</body>
+</html>

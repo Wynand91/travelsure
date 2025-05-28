@@ -21,7 +21,7 @@ class UsersViewSet(SerializerForAction, mixins.CreateModelMixin , GenericViewSet
         else:
             return super().get_permissions()
 
-    @action(detail=False, methods=['get'])
+    @action(detail=False, methods=['GET'])
     def profile(self, request):
         serializer = self.get_serializer(request.user)
         return Response(serializer.data)
