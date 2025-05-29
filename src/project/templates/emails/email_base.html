@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title></title>
+</head>
+
+<body>
+<div style="padding: 0;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif">
+
+    <!-- email header -->
+    <div style="font-size: 14px; line-height: 24px; margin-bottom: 10px;">
+        <strong>{% block heading %}{% endblock %}</strong>
+    </div>
+    <!-- email body content -->
+    <div style="font-size: 14px; line-height: 24px; margin-bottom: 20px;">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- contact us -->
+    <div style="font-size: 14px; line-height: 24px; margin-bottom: 20px;">
+        <p> {% block contact %}{% endblock %}}</p>
+        Call us on: <a href="tel:0861111111" style="color: black; text-decoration: none;">086 111 1111</a><br>
+        Email: <a href="mailto:info@travelsure.com" style="color: black; text-decoration: none; ">info@travelsure.com</a>
+    </div>
+
+    <!-- email footer -->
+    <div style="font-size: 12px; line-height: 24px; margin-bottom: 20px;">
+        <strong>Office Hours:</strong><br>
+        Monday - Friday<br>
+        08:00 - 17:00<br>
+        Sundays &amp; Public Holidays<br>
+        Closed
+    </div>
+    <div style="font-size: 14px; line-height: 24px; margin-bottom: 20px;">
+        Regards,<br>
+        The TravelSure Team
+    </div>
+</div>
+
+</body>
+</html>
+

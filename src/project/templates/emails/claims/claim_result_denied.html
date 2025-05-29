@@ -1,0 +1,12 @@
+{% extends 'emails/email_base.html' %}}
+
+{% block content %}
+<h1>TravelSure Claim</h1>
+<h2>Thank you for trusting TravelSure!</h2>
+<p> Regarding Policy: {{ plan }}</p>
+<p> Unfortunately your claim has been denied.</p>
+{% endblock %}
+
+{% block contact %}
+<p> Please contact our support team for more information.</p>
+{% endblock %}

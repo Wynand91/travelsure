@@ -1,14 +1,12 @@
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
 from rest_framework.fields import SerializerMethodField
 
+from apps.claims.api.validations import check_for_pending, check_policy_status, check_claim_date
 from apps.claims.enums import ClaimStatus
 from apps.claims.models import Claim
 from apps.policy.api.serializers import PolicySerializer
-from apps.policy.enums import PolicyStatus
 from apps.policy.models import Policy
 from apps.serializers import EnumSerializer
-from apps.utils.utils import check_expiry_date
 
 
 class ClaimSerializer(serializers.ModelSerializer):
@@ -37,13 +35,10 @@ class ClaimSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         policy = attrs['policy']
-        # can only claim if policy is active or expired
-        if policy.status in [PolicyStatus.PENDING, PolicyStatus.CANCELLED]:
-            raise ValidationError('Invalid policy status')
-
-        # can't claim more than a month after policy expires
-        if policy.status == PolicyStatus.EXPIRED:
-            check_expiry_date(policy.end_date, 1)
+        check_for_pending(policy.id)
+        check_policy_status(policy.status)
+        check_claim_date(policy)
+        return attrs
 
 
 class ClaimStatusSerializer(serializers.Serializer):

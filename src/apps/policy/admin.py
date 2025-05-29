@@ -1,23 +1,21 @@
-from django.contrib import admin
-
+from apps.admin_utils import ReadOnlyAdmin
 from apps.policy.models import Policy
+from django.contrib import admin
+from rangefilter.filters import DateRangeFilter
 
 
 @admin.register(Policy)
-class PolicyAdmin(admin.ModelAdmin):
+class PolicyAdmin(ReadOnlyAdmin):
+    search_fields = ['id']
+    list_filter = [
+        ('start_date', DateRangeFilter),
+        'destination',
+        'status',
+        'policy_type',
+        'paid',
+    ]
     list_display = (
         'id',
         'user',
         'status',
-    )
-    fields = (
-        'id',
-        'user',
-        'destination',
-        'start_date',
-        'end_date',
-        'policy_type',
-        'price',
-        'status',
-        'created_at',
     )

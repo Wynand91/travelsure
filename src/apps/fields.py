@@ -30,7 +30,7 @@ class EnumSmallIntegerField(models.SmallIntegerField):
         if value is None or isinstance(value, self.enum_class):
             return value
         try:
-            return self.enum_class(value)
+            return self.enum_class(int(value))
         except ValueError:
             raise ValidationError(f"{value} is not a valid value for enum {self.enum_class.__name__}")
 

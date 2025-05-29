@@ -1,6 +1,7 @@
 from datetime import timezone
 
 from django.core.mail import EmailMessage
+from django.utils.timezone import now
 from rest_framework.exceptions import ValidationError
 
 
@@ -10,6 +11,7 @@ def send_email(subject, html_content, receiver):
     email.send()
 
 
-def check_expiry_date(date_to_check,  months_allowed):
-    breakpoint()
-    raise ValidationError('Claim window expired')
+def check_expiry_date(date_to_check,  days_allowed):
+    difference = now().date() - date_to_check
+    if abs(difference.days) > days_allowed:
+        raise ValidationError('Claim window expired')

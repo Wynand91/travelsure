@@ -1,5 +1,3 @@
-from os import path, makedirs
-
 from django.apps import AppConfig
 
 

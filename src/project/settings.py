@@ -19,11 +19,13 @@ from corsheaders.defaults import default_headers
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.abspath(os.getenv('BASE_DIR', '.'))
 
 PROJ_DIR = os.path.dirname(__file__)
 SRC_DIR = os.path.dirname(PROJ_DIR)
 
+
+ENV = os.getenv('ENV')
 
 # for custom user model
 AUTH_USER_MODEL = "users.User"
@@ -54,6 +56,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_extensions',
     'rest_framework',
+    'rangefilter',
     'drf_yasg',
     'huey.contrib.djhuey',
     # project apps
@@ -78,7 +81,7 @@ ROOT_URLCONF = 'project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'src', 'project', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

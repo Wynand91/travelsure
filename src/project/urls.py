@@ -11,7 +11,7 @@ from apps.policy.api.views import PolicyViewSet
 from apps.users.api.views import UsersViewSet
 from project.schema import schema_view
 
-ADMIN_TITLE = 'Travelsure'
+ADMIN_TITLE = 'TravelSure'
 admin.site.site_header = ADMIN_TITLE
 admin.site.site_title = ADMIN_TITLE
 admin.site.index_title = ADMIN_TITLE
