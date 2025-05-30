@@ -5,3 +5,5 @@ pytest-env
 factory-boy ~=3.3
 pytest-voluptuous
 freezegun
+coverage
+pytest-cov
