@@ -73,4 +73,4 @@ jobs:
 
     steps:
       - name: Simulate deployment
-        run: echo "Simulated deploy step: Dummy deploy to imaginary environment."
+        run: echo "Simulated deploy step - Dummy deploy to imaginary environment."
