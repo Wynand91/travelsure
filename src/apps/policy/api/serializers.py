@@ -16,7 +16,7 @@ class PolicySerializer(serializers.ModelSerializer):
     class Meta:
         model = Policy
         exclude = ('created_at', 'updated_at', 'deleted_at',)
-        read_only_fields =  ('id', 'user', 'status', 'paid')
+        read_only_fields = ('id', 'user', 'status', 'paid')
 
     def create(self, validated_data):
         # infer user from request.user
@@ -28,4 +28,3 @@ class PolicySerializer(serializers.ModelSerializer):
         if attrs['start_date'] > attrs['end_date']:
             raise ValidationError('Start date can not be after End date')
         return attrs
-

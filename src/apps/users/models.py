@@ -1,10 +1,9 @@
 import uuid
 
+from apps.utils.model_utils import TimeStampedModel
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
-from apps.utils.model_utils import TimeStampedModel
 
 
 class User(AbstractUser, TimeStampedModel):

@@ -1,16 +1,16 @@
-from datetime import datetime, time, timedelta
-from django.contrib.auth import get_user_model
-from django.contrib.auth.hashers import make_password
-from django.contrib.auth.models import AbstractBaseUser
-from django.core.management.base import BaseCommand, CommandError
-from django.conf import settings
-from django.db.transaction import atomic
-from django.utils import timezone
+from datetime import timedelta
 
 from apps.claims.enums import ClaimStatus
 from apps.claims.models import Claim
 from apps.policy.enums import Destination, PolicyType, PolicyStatus
 from apps.policy.models import Policy
+from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import AbstractBaseUser
+from django.core.management.base import BaseCommand, CommandError
+from django.db.transaction import atomic
+from django.utils import timezone
 
 
 class Command(BaseCommand):
@@ -38,7 +38,7 @@ class Command(BaseCommand):
         policy = Policy.objects.create(
             user=user,
             destination=Destination.EUROPE,
-            start_date= start_date,
+            start_date=start_date,
             end_date=now,
             policy_type=PolicyType.PREMIUM,
             paid=True,

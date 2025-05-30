@@ -1,10 +1,9 @@
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from django.template.loader import render_to_string
-
 from apps.policy.models import Policy
 from apps.policy.utils import calculate_price
 from apps.utils.utils import send_email
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.template.loader import render_to_string
 
 
 @receiver(post_save, sender=Policy)

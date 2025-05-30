@@ -1,12 +1,11 @@
-from rest_framework import serializers
-from rest_framework.fields import SerializerMethodField
-
 from apps.claims.api.validations import check_for_pending, check_policy_status, check_claim_date
 from apps.claims.enums import ClaimStatus
 from apps.claims.models import Claim
 from apps.policy.api.serializers import PolicySerializer
 from apps.policy.models import Policy
 from apps.serializers import EnumSerializer
+from rest_framework import serializers
+from rest_framework.fields import SerializerMethodField
 
 
 class ClaimSerializer(serializers.ModelSerializer):

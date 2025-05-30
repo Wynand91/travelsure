@@ -25,4 +25,3 @@ class ClaimsAdmin(admin.ModelAdmin):
         'created_at',
     ]
     fields = readonly_fields + ['status']
-

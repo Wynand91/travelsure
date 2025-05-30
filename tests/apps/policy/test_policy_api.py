@@ -1,15 +1,13 @@
 from datetime import datetime
-from django.core import mail
-
-
-from rest_framework.reverse import reverse_lazy
 
 from apps.policy.enums import PolicyStatus
 from apps.policy.models import Policy
+from django.core import mail
+from pytest_voluptuous import S
+from rest_framework.reverse import reverse_lazy
+
 from tests.base import BaseApiTestCase
 from tests.factories import UserFactory, PolicyFactory
-
-from pytest_voluptuous import S
 
 
 class TestPolicyApi(BaseApiTestCase):
@@ -53,7 +51,6 @@ class TestPolicyApi(BaseApiTestCase):
             }
         ])
 
-
     def test_policy_detail(self):
         url = reverse_lazy('api:policy-detail', kwargs={'pk': self.policy_active.id})
         resp = self.get(user=self.user, url=url)
@@ -69,7 +66,6 @@ class TestPolicyApi(BaseApiTestCase):
             'paid': True,
             'user': str(self.user.id)
         }
-
 
     def test_policy_create_validation(self):
         resp = self.post(user=self.user, data={})
@@ -142,4 +138,3 @@ class TestPolicyApi(BaseApiTestCase):
         assert email.subject == "Your Policy Confirmation"
         assert "Thank you" in email.body
         assert email.to == [self.user.username]
-

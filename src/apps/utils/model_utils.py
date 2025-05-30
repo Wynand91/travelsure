@@ -10,7 +10,6 @@ class TimeStampedModel(models.Model):
         abstract = True
 
 
-
 class SoftDeletableModel(models.Model):
     is_active = models.BooleanField(default=True)
     deleted_at = models.DateTimeField(null=True, blank=True)
@@ -31,5 +30,3 @@ class BaseModel(TimeStampedModel, SoftDeletableModel):
 
     class Meta:
         abstract = True
-
-

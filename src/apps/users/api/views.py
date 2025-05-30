@@ -1,14 +1,13 @@
+from apps.users.api.serializers import PasswordSerializer, UserCreateSerializer
+from apps.users.models import User
+from apps.views import SerializerForAction
 from rest_framework import status, permissions, mixins
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from apps.users.api.serializers import PasswordSerializer, UserCreateSerializer
-from apps.users.models import User
-from apps.views import CreateMixin, SerializerForAction
 
-
-class UsersViewSet(SerializerForAction, mixins.CreateModelMixin , GenericViewSet):
+class UsersViewSet(SerializerForAction, mixins.CreateModelMixin, GenericViewSet):
     serializer_default = UserCreateSerializer
     serializer_for_action = {
         'change_password': PasswordSerializer

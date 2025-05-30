@@ -1,11 +1,10 @@
 import uuid
 
-from django.db import models
-
 from apps.fields import EnumSmallIntegerField
 from apps.policy.enums import PolicyStatus, PolicyType, Destination
 from apps.users.models import User
 from apps.utils.model_utils import BaseModel
+from django.db import models
 
 
 class Policy(BaseModel):

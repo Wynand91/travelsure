@@ -1,18 +1,17 @@
 from datetime import datetime
 from decimal import Decimal
 
-from django.contrib.auth.hashers import make_password
-from factory import SubFactory
-from factory.django import DjangoModelFactory
-
 from apps.claims.enums import ClaimStatus
 from apps.claims.models import Claim
 from apps.policy.enums import Destination, PolicyType, PolicyStatus
 from apps.policy.models import Policy
 from apps.users.models import User
-
+from django.contrib.auth.hashers import make_password
+from factory import SubFactory
+from factory.django import DjangoModelFactory
 
 PASSWORD = 'Lolc@t123'
+
 
 class UserFactory(DjangoModelFactory):
     username = 'test@user.com'
@@ -20,11 +19,9 @@ class UserFactory(DjangoModelFactory):
     last_name = 'Doe'
     password = make_password(PASSWORD)
 
-
     class Meta:
         model = User
         django_get_or_create = ('username',)
-
 
 
 class PolicyFactory(DjangoModelFactory):

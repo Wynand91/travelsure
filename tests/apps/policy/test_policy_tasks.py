@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
-from django.test import TestCase
 
 from apps.policy.enums import PolicyStatus
 from apps.policy.models import Policy
 from apps.policy.tasks import deactivate_policies, activate_policies
+from django.test import TestCase
 from django.utils import timezone
 from freezegun import freeze_time
 

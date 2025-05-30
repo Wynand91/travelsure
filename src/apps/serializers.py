@@ -12,7 +12,7 @@ class EnumSerializer(Field):
     }
     initial = ''
 
-    def __init__(self, enum_class,  **kwargs):
+    def __init__(self, enum_class, **kwargs):
         self.allow_blank = kwargs.pop('allow_blank', False)
         self.enum = enum_class
         self.value_field = kwargs.pop('value_field', 'name')

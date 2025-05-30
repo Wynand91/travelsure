@@ -28,6 +28,6 @@ def activate_policies():
     today = timezone.now().date()
     Policy.objects.filter(
         status=PolicyStatus.PENDING,
-        paid= True,
+        paid=True,
         start_date=today
     ).update(status=PolicyStatus.ACTIVE)

@@ -1,7 +1,6 @@
-from django.contrib.auth.admin import UserAdmin as UserAdmin_
-from django.contrib import admin
-
 from apps.users.models import User
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as UserAdmin_
 from django.contrib.auth.models import Permission
 
 admin.site.register(Permission)
@@ -18,4 +17,3 @@ class UserAdmin(UserAdmin_):
         'is_staff',
         'is_active',
     )
-

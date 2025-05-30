@@ -1,7 +1,7 @@
+from apps.claims.enums import ClaimStatus
 from django.core import mail
 from django.test import TestCase
 
-from apps.claims.enums import ClaimStatus
 from tests.factories import UserFactory, PolicyFactory, ClaimFactory
 
 
@@ -27,7 +27,6 @@ class TestClaimResult(TestCase):
         assert email.subject == 'Claim Result'
         assert 'Your claim has been reviewed an approved.' in email.body
         assert email.to == [self.user.username]
-
 
     def test_claim_denied(self):
         # mock admin user updating claim status

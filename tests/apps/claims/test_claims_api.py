@@ -1,10 +1,10 @@
+from apps.claims.enums import ClaimStatus
+from apps.claims.models import Claim
+from apps.policy.enums import PolicyStatus
 from django.core import mail
 from freezegun import freeze_time
 from rest_framework.reverse import reverse_lazy
 
-from apps.claims.enums import ClaimStatus
-from apps.claims.models import Claim
-from apps.policy.enums import PolicyStatus
 from tests.base import BaseApiTestCase
 from tests.factories import UserFactory, PolicyFactory, ClaimFactory
 
@@ -56,7 +56,6 @@ class TestClaimsApi(BaseApiTestCase):
                 'status': 'PENDING'
             }
         ]
-
 
     def test_claim_detail(self):
         url = reverse_lazy('api:claim-detail', kwargs={'pk': self.user2_claim.id})
@@ -248,7 +247,6 @@ class TestClaimsApi(BaseApiTestCase):
         assert email.subject == 'Claim Confirmation'
         assert str(new_claim.policy.id) in email.body
         assert email.to == [self.user.username]
-
 
     def test_claim_status_action(self):
         url = reverse_lazy('api:claim-status', kwargs={'pk': self.user2_claim.id})

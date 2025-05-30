@@ -11,4 +11,3 @@ class PolicyViewSet(SafeModelViewSet):
         # only return request user's policies
         user = self.request.user
         return Policy.objects.filter(user=user)
-

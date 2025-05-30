@@ -1,5 +1,5 @@
-from rest_framework.test import APIClient, APITestCase
 from rest_framework.response import Response
+from rest_framework.test import APIClient, APITestCase
 
 from tests.utils import get_jwt_token
 

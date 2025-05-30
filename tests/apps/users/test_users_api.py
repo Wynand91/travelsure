@@ -129,8 +129,7 @@ class TestUserChangePasswordApi(BaseApiTestCase):
             'new_password_confirm': valid_password
         }
         resp = self.post(user=self.user, data=data)
-        assert resp.status_code == 204. # No content
+        assert resp.status_code == 204  # No content
         # check that password was updated
         self.user.refresh_from_db()
         assert self.user.check_password(valid_password)
-

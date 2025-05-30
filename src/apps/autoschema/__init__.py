@@ -1,1 +1,1 @@
-from .autoschema import AutoSchema
+from .autoschema import AutoSchema  # noqa: F401
