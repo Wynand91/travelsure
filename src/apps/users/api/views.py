@@ -1,4 +1,4 @@
-from apps.users.api.serializers import PasswordSerializer, UserCreateSerializer
+from apps.users.api.serializers import PasswordSerializer, UserCreateSerializer, UserProfileSerializer
 from apps.users.models import User
 from apps.views import SerializerForAction
 from rest_framework import status, permissions, mixins
@@ -10,7 +10,8 @@ from rest_framework.viewsets import GenericViewSet
 class UsersViewSet(SerializerForAction, mixins.CreateModelMixin, GenericViewSet):
     serializer_default = UserCreateSerializer
     serializer_for_action = {
-        'change_password': PasswordSerializer
+        'profile': UserProfileSerializer,
+        'change_password': PasswordSerializer,
     }
     queryset = User.objects.filter(is_active=True, is_staff=False)
 

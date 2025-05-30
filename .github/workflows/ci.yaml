@@ -27,8 +27,13 @@ jobs:
           --health-retries=5
 
     env:
+      DJANGO_SETTINGS_MODULE: project.settings_test
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
-      DJANGO_SETTINGS_MODULE: project.settings_test  # Replace with your actual settings module
+      DB_NAME: test_db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: localhost
+      DB_PORT: 5432
 
     steps:
       - name: Checkout code

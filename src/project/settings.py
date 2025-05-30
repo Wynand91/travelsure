@@ -38,7 +38,7 @@ AUTH_USER_MODEL = "users.User"
 SECRET_KEY = 'django-insecure-1j+k@pc!u9s6sxa)i-ys18!sgw6z^yf$hi422+)4enjnd5#987'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', False)
 
 ALLOWED_HOSTS = []
 
@@ -106,8 +106,8 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-DB_NAME = os.getenv("DB_NAME", default="travelsure")
 DB_DEFAULT_ENGINE = 'django.db.backends.postgresql'
+DB_NAME = os.getenv("DB_NAME", default="travelsure")
 DB_HOST = os.getenv('DB_HOST', default='localhost')
 DB_PORT = os.getenv('DB_PORT', default='5432')
 DB_USER = os.getenv('DB_USER', default='')
@@ -119,8 +119,11 @@ DATABASES = {
         'NAME': DB_NAME,
         'HOST': DB_HOST,
         'PORT': DB_PORT,
+        'USER': DB_USER,
+        'PASSWORD': DB_PASSWORD,
     }
 }
+
 
 # DRF Settings
 REST_FRAMEWORK = {

@@ -1,14 +1,17 @@
 from apps.users.models import User
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
+    auth_token = serializers.CharField(read_only=True)
+    refresh_token = serializers.CharField(read_only=True)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'password']
+        fields = ['id', 'username', 'auth_token', 'refresh_token', 'password']
         read_only_fields = ['id']
 
     def validate_password(self, value):
@@ -17,7 +20,20 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
+        # Generate JWT tokens
+        refresh = RefreshToken.for_user(user)
+        # Attach tokens to the returned user object
+        user.auth_token = str(refresh.access_token)
+        user.refresh_token = str(refresh)
+
         return user
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'first_name', 'last_name']
 
 
 class PasswordSerializer(serializers.Serializer):

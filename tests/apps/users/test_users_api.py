@@ -1,4 +1,5 @@
 from apps.users.models import User
+from pytest_voluptuous import S
 from rest_framework.reverse import reverse_lazy
 
 from tests.base import BaseApiTestCase
@@ -49,7 +50,13 @@ class TestUserCreateApi(BaseApiTestCase):
         }
         resp = self.post(data=data)
         assert resp.status_code == 201
-        assert User.objects.get(id=resp.json()['id'])
+        new_user = User.objects.get(id=resp.json()['id'])
+        assert resp.json() == S({
+            'id': str(new_user.id),
+            'username': 'john@test.com',
+            'auth_token': str,
+            'refresh_token': str,
+        })
 
 
 class TestUserProfileApi(BaseApiTestCase):
