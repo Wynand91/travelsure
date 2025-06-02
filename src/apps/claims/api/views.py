@@ -16,6 +16,8 @@ class ClaimsViewSet(SerializerForAction, SafeModelViewSet):
     def get_queryset(self):
         # only return request user's policies
         user = self.request.user
+        if not user.is_authenticated:
+            return Claim.objects.none()
         return Claim.objects.filter(policy__user=user)
 
     @swagger_auto_schema(responses={200: ClaimStatusSerializer(many=False)})

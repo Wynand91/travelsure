@@ -10,4 +10,6 @@ class PolicyViewSet(SafeModelViewSet):
     def get_queryset(self):
         # only return request user's policies
         user = self.request.user
+        if not user.is_authenticated:
+            return Policy.objects.none()
         return Policy.objects.filter(user=user)
