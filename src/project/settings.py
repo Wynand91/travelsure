@@ -25,7 +25,7 @@ PROJ_DIR = os.path.dirname(__file__)
 SRC_DIR = os.path.dirname(PROJ_DIR)
 
 
-ENV = os.getenv('ENV')
+ENV = os.getenv('ENV')  # deployment environment
 
 # for custom user model
 AUTH_USER_MODEL = "users.User"
@@ -97,7 +97,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 
 # CORS config
-ORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS', False)
+CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS', False)
 CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', [])
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'authorization',
