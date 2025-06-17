@@ -1,5 +1,7 @@
 # TravelSure
 
+[![codecov](https://codecov.io/gh/Wynand91/travelsure/graph/badge.svg?token=T3OJIA7JVO)](https://codecov.io/gh/Wynand91/travelsure)
+
 Travelsure is a basic Django/DRF application designed to simulate a basic travel insurance backend/API. It showcases 
 backend development practices, including JWT authentication, API design, SQL database design, testing, and CI/CD integration.
 
