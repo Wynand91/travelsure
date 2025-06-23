@@ -79,7 +79,7 @@ jobs:
         run: python manage.py migrate --verbosity 2
 
       - name: Run tests
-        run: pytest --cov=src/apps --cov-branch --cov-report=xml
+        run: pytest --cov=src/apps --cov-branch --cov-report=xml --cov-fail-under=90
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
