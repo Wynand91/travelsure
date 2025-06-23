@@ -1,5 +1,5 @@
 coverage:
   paths:
-    - src/
+    - src/apps/
   ignore:
-    - project/**
+    - src/project/**
