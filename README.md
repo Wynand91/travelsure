@@ -57,7 +57,7 @@ pip install -r requirements.txt
   DB_PASSWORD=your_db_password
   DB_HOST=localhost
   DB_PORT=5432
-  SECRET_KEY=your_django_secret_key
+  SECRET_KEY=your_django_secret_key  # optional
   ```
 5. Apply migrations:
 ``` shell
