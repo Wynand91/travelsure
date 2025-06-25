@@ -6,12 +6,14 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 class UserCreateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
     auth_token = serializers.CharField(read_only=True)
     refresh_token = serializers.CharField(read_only=True)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'auth_token', 'refresh_token', 'password']
+        fields = ['id', 'username', 'first_name', 'last_name', 'auth_token', 'refresh_token', 'password']
         read_only_fields = ['id']
 
     def validate_password(self, value):

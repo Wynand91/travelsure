@@ -9,18 +9,22 @@ from tests.factories import UserFactory, PASSWORD
 class TestUserCreateApi(BaseApiTestCase):
     url = reverse_lazy('api:user-list')
 
-    def test_user_create_no_email(self):
+    def test_user_create_no_data(self):
         resp = self.post(data={})
         assert resp.status_code == 400
         assert resp.json() == {
             'username': ['This field is required.'],
-            'password': ['This field is required.']
+            'password': ['This field is required.'],
+            'first_name': ['This field is required.'],
+            'last_name': ['This field is required.'],
         }
 
     def test_user_create_validate_password(self):
         data = {
             'username': 'john@test.com',
-            'password': '1234'
+            'first_name': 'john',
+            'last_name': 'doe',
+            'password': '1234',
         }
         resp = self.post(data=data)
         assert resp.status_code == 400
@@ -35,7 +39,9 @@ class TestUserCreateApi(BaseApiTestCase):
     def test_user_create_validate_username(self):
         data = {
             'username': 'john',
-            'password': 'LolC@t123'
+            'password': 'LolC@t123',
+            'first_name': 'john',
+            'last_name': 'doe',
         }
         resp = self.post(data=data)
         assert resp.status_code == 400
@@ -54,6 +60,8 @@ class TestUserCreateApi(BaseApiTestCase):
         assert resp.json() == S({
             'id': str(new_user.id),
             'username': 'john@test.com',
+            'first_name': 'john',
+            'last_name': 'test',
             'auth_token': str,
             'refresh_token': str,
         })
