@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from freezegun import freeze_time
+
 from apps.policy.enums import PolicyStatus
 from apps.policy.models import Policy
 from django.core import mail
@@ -95,7 +97,23 @@ class TestPolicyApi(BaseApiTestCase):
         # assert no email sent
         assert len(mail.outbox) == 0
 
+    @freeze_time('2020-06-30')
     def test_policy_create_invalid_date(self):
+        """Start date in the past"""
+        data = {
+            'destination': 'EUROPE',
+            'start_date': '2020-06-29',  # start date is day before today
+            'end_date': '2020-07-30',
+            'policy_type': 'BASIC',
+        }
+        resp = self.post(user=self.user, data=data)
+        assert resp.status_code == 400
+        assert resp.json() == {'start_date': ['Start date must be in the future.']}
+        # assert no email sent
+        assert len(mail.outbox) == 0
+
+    def test_policy_create_invalid_date_order(self):
+        """Start date after end date"""
         data = {
             'destination': 'EUROPE',
             'start_date': '2026-06-30',
@@ -138,3 +156,30 @@ class TestPolicyApi(BaseApiTestCase):
         assert email.subject == "Your Policy Confirmation"
         assert "Thank you" in email.body
         assert email.to == [self.user.username]
+
+    def test_destinations_action(self):
+        url = reverse_lazy('api:policy-destinations')
+        resp = self.get(user=self.user, url=url)
+        assert resp.status_code == 200
+        assert resp.json() == {
+            'destinations': [
+                'EUROPE',
+                'AFRICA',
+                'OCEANIA',
+                'ASIA',
+                'NORTH_AMERICA',
+                'SOUTH_AMERICA',
+                'ANTARCTICA'
+            ]
+        }
+
+    def test_policy_types_action(self):
+        url = reverse_lazy('api:policy-policy-types')
+        resp = self.get(user=self.user, url=url)
+        assert resp.status_code == 200
+        assert resp.json() == {
+            'policy_types': [
+                'BASIC',
+                'STANDARD',
+                'PREMIUM']
+        }
