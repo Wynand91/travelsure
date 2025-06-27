@@ -1,3 +1,5 @@
+from datetime import date
+
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
@@ -24,7 +26,17 @@ class PolicySerializer(serializers.ModelSerializer):
         validated_data['user'] = user
         return super().create(validated_data)
 
+    def validate_start_date(self, value):
+        today = date.today()
+        if value <= today:
+            raise ValidationError('Start date must be in the future.')
+        return value
+
     def validate(self, attrs):
-        if attrs['start_date'] > attrs['end_date']:
+        start_date = attrs['start_date']
+        end_date = attrs['end_date']
+
+        if start_date > end_date:
             raise ValidationError('Start date can not be after End date')
+
         return attrs
